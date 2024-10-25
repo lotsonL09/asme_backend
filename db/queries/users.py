@@ -1,7 +1,7 @@
 from sqlalchemy import Select
 from db.db_tables.db_tables import (users_table,teams_table,areas_table)
 from extra.schemas_function import scheme_user
-from extra.helper_functions import execute_get
+from extra.helper_functions import execute_get_one
 from entities.users import User
 
 from fastapi import HTTPException,status
@@ -19,10 +19,8 @@ users_query=(Select(
 
 def get_user_by_dni(dni:str) -> User:
     query=users_query.where(users_table.c.DNI == dni)
-    user_row=execute_get(query=query)
-
+    user_row=execute_get_one(query=query)
     if user_row != None:
-        print(user_row)
         user_scheme=scheme_user(user_row=user_row)
         user_found=User(**user_scheme)
         return user_found

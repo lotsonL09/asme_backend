@@ -1,7 +1,10 @@
-from fastapi import APIRouter,status,Request,Form,File,UploadFile
-from fastapi.responses import HTMLResponse
+from fastapi import APIRouter,status,Request,Form,File,UploadFile,Query
 from fastapi.templating import Jinja2Templates
-from entities.form import FormData
+from entities.ticket import To_Form_Tickets
+from extra.helper_functions import decode_url_safe_token
+
+import urllib.parse
+import json
 
 form=APIRouter(prefix="/form",
             tags=["Form page"],
@@ -9,9 +12,11 @@ form=APIRouter(prefix="/form",
 
 templates=Jinja2Templates(directory="templates")
 
-@form.get("/")
-async def get_form(request:Request):
-    return templates.TemplateResponse("formulario.1.html",{"request":request})
+@form.get("/{data}")
+async def get_form(request:Request,data:str):
+    tickets_data=decode_url_safe_token(token=data)
+    tickets_data=json.loads(tickets_data)
+    return templates.TemplateResponse("formulario.1.html",{"request":request,"data":tickets_data})
 
 @form.post("/data_form")
 async def get_data_form(
@@ -39,4 +44,6 @@ async def get_image_form(
     print(contents)
 
     return templates.TemplateResponse("image_sent.1.html",{"request":request})
+
+
 

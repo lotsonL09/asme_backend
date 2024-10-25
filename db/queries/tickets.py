@@ -1,6 +1,6 @@
 from sqlalchemy import Select,func
 from db.db_tables.db_tables import (tickets_table,buyers_table)
-from extra.helper_functions import execute_get
+from extra.helper_functions import execute_get_one,execute_get
 from extra.schemas_function import scheme_ticket
 from entities.ticket import Ticket
 from fastapi import HTTPException,status
@@ -46,7 +46,8 @@ def get_tickets(id_user,booked=False):
 
 def get_last_booked_ticket(id_user):
     query=query_last_ticket.where(tickets_table.c.id_user == id_user)
-    ticket_number = execute_get(query=query)
+    ticket_number = execute_get_one(query=query)
+    print(ticket_number)
     if ticket_number is None:
         raise HTTPException(detail="No booked found",
                             status_code=status.HTTP_404_NOT_FOUND)
