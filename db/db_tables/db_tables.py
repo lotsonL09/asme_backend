@@ -1,5 +1,5 @@
 from sqlalchemy import (Table,Column,Integer,String,
-                        Boolean,MetaData,ForeignKey)
+                        Boolean,MetaData,ForeignKey,DateTime)
 
 metadata_obj=MetaData()
 
@@ -44,6 +44,7 @@ tickets_table=Table(
     Column("id_ticket",Integer,autoincrement=True,primary_key=True),
     Column("number_ticket",String),
     Column("booked",Boolean),
+    Column("booking_time",DateTime),
     Column("id_user",Integer,ForeignKey("users.id_user"))
 )
 

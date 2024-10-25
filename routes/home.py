@@ -7,10 +7,10 @@ home=APIRouter(prefix="/home",
 
 @home.get("/booked_tickets")
 async def get_booked_tickets(id:int):
-    amount_tickets=get_tickets(id_user=id,booked=True)
+    tickets_data=get_tickets(id_user=id,booked=True)
     return {
         'detail':'Booked tickets',
-        'amount':amount_tickets
+        'tickets_data':tickets_data
     }
 
 @home.get("/remain_tickets")

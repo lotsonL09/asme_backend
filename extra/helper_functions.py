@@ -5,5 +5,5 @@ Session=sessionmaker(engine)
 
 def execute_get(query):
     with Session() as session:
-        result=session.execute(query).first()
+        result=session.execute(query).fetchall()
         return result

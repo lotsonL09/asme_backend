@@ -41,6 +41,7 @@ CREATE TABLE tickets(
 	id_ticket INT AUTO_INCREMENT,
     number_ticket VARCHAR(4),
     booked BOOLEAN,
+    booking_time DATETIME, #'1000-01-01 00:00:00' to '9999-12-31 23:59:59'
     id_user INT,
     PRIMARY KEY(id_ticket),
     FOREIGN KEY(id_user) REFERENCES users(id_user)
