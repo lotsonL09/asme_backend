@@ -22,6 +22,7 @@ CREATE TABLE areas(
     PRIMARY KEY(id_area)
 );
 
+
 CREATE TABLE users(
 	id_user INT AUTO_INCREMENT,
 	DNI VARCHAR(8),
