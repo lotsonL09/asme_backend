@@ -1,12 +1,16 @@
-{% extends "base.html" %}
+{% extends "base.1.html" %}
 
 {%block content%}
 
-<h1>Ingresa el voucher</h1>
+<div class="form-image">
 
-<form action="/form/image" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" accept="image/*" required />
-    <button type="submit">Continuar</button>
-</form>
+    <h1>Ingresa el voucher</h1>
+
+    <form action="/form/image" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required />
+        <button type="submit">Continuar</button>
+    </form>
+
+</div>
 
 {%endblock%}
