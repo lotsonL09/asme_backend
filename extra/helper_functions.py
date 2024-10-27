@@ -1,3 +1,4 @@
+import cloudinary.uploader
 from db.db_session import engine
 from sqlalchemy.orm import sessionmaker
 import qrcode
@@ -5,9 +6,10 @@ from fastapi import HTTPException,status
 from itsdangerous import URLSafeTimedSerializer
 import base64
 import io
-from datetime import datetime
 from sqlalchemy import update,insert
 from config.config import settings
+import cloudinary
+
 
 Session=sessionmaker(engine)
 
@@ -81,3 +83,18 @@ def get_qr(data):
         "link":full_url,
         "qr":qr_base64
     }
+
+cloudinary.config(
+    cloud_name="ddcb3fk7s",
+    api_key="727551972448292",
+    api_secret="vPMqCTqDL8QwFjqTqfCQkn-W0fk",
+    secure=True
+)
+
+def upload_to_cloudinary(image):
+    response_cloud=cloudinary.uploader.upload(image,
+                            public_id="image_prueba_asme",
+                            folder="asme_pruebas")
+    url_file=response_cloud["secure_url"]
+
+    return url_file

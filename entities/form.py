@@ -6,3 +6,7 @@ class FormData(BaseModel):
     email:str
     dni:str
     cell_phone:str
+
+class ImageForm(BaseModel):
+    id_tickets:list[int]
+    image_form:str

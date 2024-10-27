@@ -6,11 +6,49 @@
 
     <h1>Ingresa el voucher</h1>
 
-    <form action="/form/image" method="post" enctype="multipart/form-data">
+    <form action="/form/image" method="post" onsubmit=sendData(event)>
         <input type="file" name="file" accept="image/*" required />
         <button type="submit">Continuar</button>
     </form>
 
 </div>
+
+<script>
+    const idTickets=JSON.parse('{{data["id_tickets"] | tojson | safe}}')
+    function sendData(event){
+        event.preventDefault();
+
+        const formData = new FormData();
+        formData.append("id_tickets",JSON.stringify(idTickets));
+
+        const imageFile = document.querySelector("input[name='file']").files[0];
+        formData.append("image",imageFile)
+
+
+        const imageForm = {
+            "image":document.querySelector("input[name='file']").value
+        }
+
+        fetch("/form/image",{
+            method:'POST',
+            body:formData
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.text();  // Obtener el HTML de la respuesta
+        })
+        .then(html => {
+            // Reemplazar el contenido de la página con el nuevo HTML
+            document.open();
+            document.write(html);
+            document.close();
+        })
+        .catch(error => {
+            console.error('Error al enviar datos:', error);
+        });
+
+    }
+</script>
 
 {%endblock%}

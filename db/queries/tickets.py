@@ -87,3 +87,7 @@ def register_ticket(id_tickets:list[int],
     execute_update(query=query_ticket)
 
     return id_buyer
+
+def update_tickets(id_ticket:int,url_image:str):
+    query=get_update_query(table=tickets_table,filters={"id_ticket":id_ticket},params={"evidence":url_image})
+    execute_update(query=query)
