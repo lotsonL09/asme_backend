@@ -5,7 +5,8 @@ from fastapi import HTTPException,status
 from itsdangerous import URLSafeTimedSerializer
 import base64
 import io
-
+from datetime import datetime
+from sqlalchemy import update,insert
 from config.config import settings
 
 Session=sessionmaker(engine)
@@ -23,6 +24,33 @@ def execute_get_one(query):
     with Session() as session:
         result=session.execute(query).first()
         return result
+
+def execute_insert(query):
+    with Session() as session:
+        register_inserted=session.execute(query)
+        session.commit()
+        id=register_inserted.inserted_primary_key[0]
+    return id
+
+def execute_update(query):
+    with Session() as session:
+        session.execute(query)
+        session.commit()
+
+def get_update_query(table, filters: dict, params: dict):
+    query = update(table)
+    for column_name, value in filters.items():
+        if isinstance(value, list):
+            query = query.where(getattr(table.c, column_name).in_(value))
+        else:
+            query = query.where(getattr(table.c, column_name) == value)
+    query = query.values(**params)
+    return query
+
+
+def get_insert_query(table,params:dict):
+    query=insert(table).values(**params)
+    return query
 
 def create_url_safe_token(data):
     token=serializer.dumps(obj=data)

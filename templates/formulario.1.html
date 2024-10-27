@@ -14,7 +14,7 @@
         {%endfor%}
     </ul>
 
-    <form action="/form/data_form" method="post" class="form-container">
+    <form onsubmit=sendData(event) action="/form/data_form" method="post" class="form-container">
         <label for="first_name">Nombres</label>
         <input type="text" id="first_name" name="first_name" placeholder="Ingresa tus nombres completos" required>
 
@@ -36,6 +36,44 @@
 
 </div>
 
+
+<script>
+    const ticketsData=JSON.parse('{{ data["tickets_data"]|tojson|safe }}');
+
+    function sendData(event){
+        event.preventDefault();
+        const formData = {
+            "first_name":document.querySelector('input[name="first_name"]').value,
+            "last_name":document.querySelector('input[name="last_name"]').value,
+            "email":document.querySelector('input[name="email"]').value,
+            "dni":document.querySelector('input[name="dni"]').value,
+            "cell_phone":document.querySelector('input[name="cell_phone"]').value
+        }
+
+        fetch("/form/data_form",{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({
+                tickets_data:ticketsData,
+                buyer_data:formData
+            })
+        }) .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.text();  // Obtener el HTML de la respuesta
+        })
+        .then(html => {
+            // Reemplazar el contenido de la página con el nuevo HTML
+            document.open();
+            document.write(html);
+            document.close();
+        })
+        .catch(error => {
+            console.error('Error al enviar datos:', error);
+        });
+    }
+</script>
 
 {%endblock%}
 

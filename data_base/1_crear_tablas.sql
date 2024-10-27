@@ -22,7 +22,6 @@ CREATE TABLE areas(
     PRIMARY KEY(id_area)
 );
 
-
 CREATE TABLE users(
 	id_user INT AUTO_INCREMENT,
 	DNI VARCHAR(8),
@@ -38,16 +37,6 @@ CREATE TABLE users(
     FOREIGN KEY(id_team) REFERENCES teams(id_team)
 );
 
-CREATE TABLE tickets(
-	id_ticket INT AUTO_INCREMENT,
-    number_ticket VARCHAR(4),
-    booked BOOLEAN,
-    booking_time DATETIME, #'1000-01-01 00:00:00' to '9999-12-31 23:59:59'
-    id_user INT,
-    PRIMARY KEY(id_ticket),
-    FOREIGN KEY(id_user) REFERENCES users(id_user)
-);
-
 CREATE TABLE buyers(
 	id_buyer INT AUTO_INCREMENT,
     first_name VARCHAR(100),
@@ -55,12 +44,22 @@ CREATE TABLE buyers(
     DNI VARCHAR(8),
     email VARCHAR(100),
     cell_phone VARCHAR(20),
-    evidence VARCHAR(200),
-    number_operation VARCHAR(20),
-    id_ticket INT,
-    PRIMARY KEY(id_buyer),
-    FOREIGN KEY(id_ticket) REFERENCES tickets(id_ticket)
+    PRIMARY KEY(id_buyer)
 );
+
+CREATE TABLE tickets(
+	id_ticket INT AUTO_INCREMENT,
+    number_ticket VARCHAR(4),
+    booked BOOLEAN,
+    booking_time DATETIME, #'1000-01-01 00:00:00' to '9999-12-31 23:59:59',
+    evidence VARCHAR(200),
+    id_user INT,
+    id_buyer INT,
+    PRIMARY KEY(id_ticket),
+    FOREIGN KEY(id_user) REFERENCES users(id_user),
+    FOREIGN KEY(id_buyer) REFERENCES buyers(id_buyer)
+);
+
 
 
 

@@ -38,16 +38,6 @@ users_table=Table(
     Column("id_team",Integer,ForeignKey("teams.id_team"))
 )
 
-tickets_table=Table(
-    "tickets",
-    metadata_obj,
-    Column("id_ticket",Integer,autoincrement=True,primary_key=True),
-    Column("number_ticket",String),
-    Column("booked",Boolean),
-    Column("booking_time",DateTime),
-    Column("id_user",Integer,ForeignKey("users.id_user"))
-)
-
 buyers_table=Table(
     "buyers",
     metadata_obj,
@@ -57,7 +47,17 @@ buyers_table=Table(
     Column("DNI",String),
     Column("email",String),
     Column("cell_phone",String),
-    Column("evidence",String),
-    Column("number_operation",String),
-    Column("id_ticket",Integer,ForeignKey("tickets.id_ticket"))
 )
+
+tickets_table=Table(
+    "tickets",
+    metadata_obj,
+    Column("id_ticket",Integer,autoincrement=True,primary_key=True),
+    Column("number_ticket",String),
+    Column("booked",Boolean),
+    Column("booking_time",DateTime),
+    Column("evidence",String),
+    Column("id_user",Integer,ForeignKey("users.id_user")),
+    Column("id_buyer",Integer,ForeignKey("buyers.id_buyer"))
+)
+

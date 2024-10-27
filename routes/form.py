@@ -1,9 +1,9 @@
 from fastapi import APIRouter,status,Request,Form,File,UploadFile,Query
 from fastapi.templating import Jinja2Templates
-from entities.ticket import To_Form_Tickets
+from entities.ticket import From_Form_Tickets
 from extra.helper_functions import decode_url_safe_token
-
-import urllib.parse
+from db.queries.tickets import register_ticket
+from datetime import datetime
 import json
 
 form=APIRouter(prefix="/form",
@@ -21,17 +21,24 @@ async def get_form(request:Request,data:str):
 @form.post("/data_form")
 async def get_data_form(
     request:Request,
-    first_name:str = Form(...),
-    last_name:str = Form(...),
-    email:str = Form(...),
-    dni:str = Form(...),
-    cell_phone:str = Form(...),
+    form_data:From_Form_Tickets
 ):
-    print(first_name)
-    print(last_name)
-    print(email)
-    print(dni)
-    print(cell_phone)
+    buyer_data=form_data.buyer_data
+    tickets_data=form_data.tickets_data
+    booking_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    id_tickets=[]
+
+    for ticket_data in tickets_data:
+        id_tickets.append(ticket_data.id_ticket)
+
+    print(buyer_data)
+    print(tickets_data)
+
+    id_buyer=register_ticket(id_tickets=id_tickets,first_name=buyer_data.first_name,last_name=buyer_data.last_name,
+                    dni=buyer_data.dni,email=buyer_data.email,cell_phone=buyer_data.cell_phone,
+                    booking_time=booking_time)
+
     return templates.TemplateResponse("send_image.1.html",{"request":request})
 
 @form.post("/image")
