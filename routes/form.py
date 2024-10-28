@@ -3,7 +3,7 @@ from fastapi.templating import Jinja2Templates
 from entities.ticket import From_Form_Tickets
 from entities.form import ImageForm
 from extra.helper_functions import decode_url_safe_token,upload_to_cloudinary
-from db.queries.tickets import register_ticket,update_tickets
+from db.queries.tickets import register_ticket,update_tickets,is_booked
 from datetime import datetime
 import json
 
@@ -24,20 +24,27 @@ async def get_data_form(
     request:Request,
     form_data:From_Form_Tickets
 ):
-    #TODO: Verificar si los tickets ya fueron vendidos
 
     buyer_data=form_data.buyer_data
+    #TODO: Verificar si los tickets ya fueron vendidos
     tickets_data=form_data.tickets_data
-    booking_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     id_tickets=[]
 
     for ticket_data in tickets_data:
-        id_tickets.append(ticket_data.id_ticket)
+
+        if is_booked(id_ticket=ticket_data.id_ticket)[0]:
+            return templates.TemplateResponse("disclaimer.1.html",{"request":request})
+        else:
+            id_tickets.append(ticket_data.id_ticket)
+
+    booking_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     
-    _=register_ticket(id_tickets=id_tickets,first_name=buyer_data.first_name,last_name=buyer_data.last_name,
-                    dni=buyer_data.dni,email=buyer_data.email,cell_phone=buyer_data.cell_phone,
-                    booking_time=booking_time)
+    
+    # _=register_ticket(id_tickets=id_tickets,first_name=buyer_data.first_name,last_name=buyer_data.last_name,
+    #                 dni=buyer_data.dni,email=buyer_data.email,cell_phone=buyer_data.cell_phone,
+    #                 booking_time=booking_time)
 
     return templates.TemplateResponse("send_image.1.html",{"request":request,"data":{"id_tickets":id_tickets}})
 

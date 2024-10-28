@@ -29,8 +29,9 @@ query_last_ticket=(Select(
 ).where(tickets_table.c.booked == 1)
 .limit(1))
 
-
-query_update_ticket=()
+query_is_booked=(Select(
+    tickets_table.c.booked
+))
 
 
 def get_tickets(id_user,booked=False):
@@ -91,3 +92,8 @@ def register_ticket(id_tickets:list[int],
 def update_tickets(id_ticket:int,url_image:str):
     query=get_update_query(table=tickets_table,filters={"id_ticket":id_ticket},params={"evidence":url_image})
     execute_update(query=query)
+
+def is_booked(id_ticket:int):
+    query=query_is_booked.where(tickets_table.c.id_ticket == id_ticket)
+    booked=execute_get_one(query=query)
+    return booked

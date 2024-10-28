@@ -21,7 +21,7 @@ INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_are
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (19,'73443371','Sergio','Rosales','19',2,3,2);
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (20,'75765865','Aaron','Silva','20',2,3,2);
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (21,'75482607','Aracely','Lalupu','21',2,3,1);
-INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (22,'12345678','Gabriel','Tadeo','22',2,1,2);
+INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (22,'72029946','Gabriel','Tadeo','22',2,1,2);
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (23,'70766809','Mariana','Silva','23',2,3,4);
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (24,'71531463','Adrian ','Bobadilla','24',2,3,6);
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (25,'73137065','Sebastián','Cruzado','25',3,3,3);
@@ -60,7 +60,7 @@ INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_are
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (58,'73776966','María Camila','Jaime','58',5,3,4);
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (59,'70754570','Valeria','Febre','51',5,3,4);
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (60,'72114289','María Alejandra ','Maza','60',5,3,2);
-INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (61,'12345678','Ana Flavia ','Diaz','61',6,3,2);
+INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (61,'72033740','Ana Flavia ','Diaz','61',6,3,2);
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (62,'75465433','Camila','Zevallos','62',6,2,3);
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (63,'75475048','Guiseppe','Cruz','63',6,2,3);
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (64,'74687715','Anghelo Michael ','Diaz','64',6,2,1);
@@ -71,4 +71,4 @@ INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_are
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (69,'71761846','Camila','Cama','69',6,2,5);
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (70,'76791208','Samuel ','Neyra','70',6,3,2);
 INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (71,'74658362','Peter ','Quispe','71',6,3,2);
-INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (72,'12345678','Karen Juliana ','Diaz','72',6,3,1);
+INSERT users(id_user,DNI,first_name,last_name,checkbooks,id_group,id_team,id_area) VALUES (72,'75088775','Karen Juliana ','Diaz','72',6,3,1);
