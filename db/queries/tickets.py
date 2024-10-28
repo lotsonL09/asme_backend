@@ -1,4 +1,4 @@
-from sqlalchemy import Select,func,Update
+from sqlalchemy import Select,func,Update,desc
 from db.db_tables.db_tables import (tickets_table,buyers_table)
 from extra.helper_functions import (execute_get_one,execute_get,
                                     get_update_query,execute_update,
@@ -27,6 +27,7 @@ query_remain_tickets=(Select(
 query_last_ticket=(Select(
     tickets_table.c.number_ticket
 ).where(tickets_table.c.booked == 1)
+.order_by(desc(tickets_table.c.booking_time))
 .limit(1))
 
 query_is_booked=(Select(
@@ -54,7 +55,6 @@ def get_tickets(id_user,booked=False):
 def get_last_booked_ticket(id_user):
     query=query_last_ticket.where(tickets_table.c.id_user == id_user)
     ticket_number = execute_get_one(query=query)
-    print(ticket_number)
     if ticket_number is None:
         raise HTTPException(detail="No booked found",
                             status_code=status.HTTP_404_NOT_FOUND)

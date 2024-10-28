@@ -91,9 +91,15 @@ cloudinary.config(
     secure=True
 )
 
-def upload_to_cloudinary(image):
+def upload_to_cloudinary(image,id_tickets:list[int]):
+
+    public_id="voucher_yape_id_ticket"
+
+    for id_ticket in id_tickets:
+        public_id+=f"_{id_ticket}"
+
     response_cloud=cloudinary.uploader.upload(image,
-                            public_id="image_prueba_asme",
+                            public_id=public_id,
                             folder="asme_pruebas")
     url_file=response_cloud["secure_url"]
 

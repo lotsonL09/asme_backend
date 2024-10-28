@@ -42,9 +42,9 @@ async def get_data_form(
 
     
     
-    # _=register_ticket(id_tickets=id_tickets,first_name=buyer_data.first_name,last_name=buyer_data.last_name,
-    #                 dni=buyer_data.dni,email=buyer_data.email,cell_phone=buyer_data.cell_phone,
-    #                 booking_time=booking_time)
+    _=register_ticket(id_tickets=id_tickets,first_name=buyer_data.first_name,last_name=buyer_data.last_name,
+                    dni=buyer_data.dni,email=buyer_data.email,cell_phone=buyer_data.cell_phone,
+                    booking_time=booking_time)
 
     return templates.TemplateResponse("send_image.1.html",{"request":request,"data":{"id_tickets":id_tickets}})
 
@@ -58,7 +58,7 @@ async def get_image_form(
 
     image_content = await image.read()
 
-    url_image=upload_to_cloudinary(image=image_content)
+    url_image=upload_to_cloudinary(image=image_content,id_tickets=id_tickets_list)
 
     for id_ticket in id_tickets_list:
         update_tickets(id_ticket=id_ticket,url_image=url_image)

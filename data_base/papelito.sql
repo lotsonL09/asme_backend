@@ -6,16 +6,17 @@ WHERE DNI=87621311 AND u.id_team = t.id_team AND u.id_area = a.id_area;
 
 SELECT t.id_ticket, t.number_ticket, b.first_name,b.last_name, b.DNI, b.email, b.cell_phone, t.booking_time 
 FROM tickets t, buyers b 
-WHERE t.id_user = 27 AND b.id_ticket = t.id_ticket AND t.booked = 0;
+WHERE t.id_user = 27 AND b.id_ticket = t.id_ticket AND t.booked = 1;
 
 SELECT t.id_ticket, t.number_ticket 
 FROM tickets t 
 WHERE t.id_user = 27 AND t.booked = 0;
 
+SELECT * FROM users WHERE id_user=27;
 
 SELECT * FROM buyers;
 
-SELECT * FROM tickets WHERE id_user = 27 AND booked = 0;
+SELECT * FROM tickets WHERE id_user = 27;
 
 INSERT buyers(first_name,last_name,DNI,email,cell_phone) VALUES("William","Valencia","71414470","william@gmail.com","987654321");
 INSERT buyers(first_name,last_name,DNI,email,cell_phone,id_ticket) VALUES("William","Valencia","71414470","william@gmail.com","987654321",782);
@@ -38,3 +39,4 @@ SELECT COUNT(booked) AS total_remain FROM tickets WHERE id_user = 1 AND booked =
 
 SELECT COUNT(booked) AS total_booked FROM tickets WHERE id_user = 1 AND booked = 1;
 
+SELECT * FROM users WHERE first_name = "Sergio";

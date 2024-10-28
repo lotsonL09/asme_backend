@@ -25,7 +25,6 @@ async def get_remain_tickets(id:int):
 
 @home.get("/last_booked_ticket")
 async def get_booked_ticket(id:int):
-    #TODO: Modificar para que te en realidad el ultimo
     ticket_number=get_last_booked_ticket(id_user=id)
     return {
             "detail":"Booked ticket found",
