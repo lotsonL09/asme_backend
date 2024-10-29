@@ -5,11 +5,12 @@ import qrcode
 from fastapi import HTTPException,status
 from itsdangerous import URLSafeTimedSerializer
 import base64
-import io
 from sqlalchemy import update,insert
 from config.config import settings
 import cloudinary
-
+import requests
+from PIL import Image, ImageDraw, ImageFont
+from io import BytesIO
 
 Session=sessionmaker(engine)
 
@@ -71,7 +72,7 @@ def get_qr(data):
     full_url=f"{url}/{encoded_data}"
     qr=qrcode.make(full_url)
 
-    image_io=io.BytesIO()
+    image_io=BytesIO()
 
     qr.save(image_io,format="PNG")
 
@@ -83,6 +84,7 @@ def get_qr(data):
         "link":full_url,
         "qr":qr_base64
     }
+
 
 cloudinary.config(
     cloud_name="ddcb3fk7s",
@@ -104,3 +106,33 @@ def upload_to_cloudinary(image,id_tickets:list[int]):
     url_file=response_cloud["secure_url"]
 
     return url_file
+
+
+def generate_ticket(ticket:str):
+    
+    url_image="https://res.cloudinary.com/ddcb3fk7s/image/upload/v1730138591/asme_ticket_format_biaecm.jpg"   
+
+    response=requests.get(url_image)
+
+    text_ticket=f"N° {ticket}"
+
+    font=ImageFont.truetype("arial.ttf",size=120)
+
+    color_text=(165,42,42)
+
+    x,y=1765,70
+
+    if response.status_code == 200:
+        image=Image.open(BytesIO(response.content))
+
+        image_text=Image.new("RGBA",(500,500),(255,255,255,0))
+
+        draw_text=ImageDraw.Draw(image_text)
+
+        draw_text.text((0,0),text_ticket,font=font,fill=color_text)
+
+        draw_text_rotate=image_text.rotate(90,expand=1)
+
+        image.paste(draw_text_rotate,(x,y),draw_text_rotate)
+
+        return image

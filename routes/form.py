@@ -3,7 +3,7 @@ from fastapi.templating import Jinja2Templates
 from entities.ticket import From_Form_Tickets
 from entities.form import ImageForm
 from extra.helper_functions import decode_url_safe_token,upload_to_cloudinary
-from db.queries.tickets import register_ticket,update_tickets,is_booked
+from db.queries.tickets import register_ticket,update_url_ticket,is_booked
 from datetime import datetime
 import json
 
@@ -33,15 +33,13 @@ async def get_data_form(
 
     for ticket_data in tickets_data:
 
-        if is_booked(id_ticket=ticket_data.id_ticket)[0]:
+        if is_booked(id_ticket=ticket_data.id_ticket):
             return templates.TemplateResponse("disclaimer.1.html",{"request":request})
         else:
             id_tickets.append(ticket_data.id_ticket)
 
     booking_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    
-    
     _=register_ticket(id_tickets=id_tickets,first_name=buyer_data.first_name,last_name=buyer_data.last_name,
                     dni=buyer_data.dni,email=buyer_data.email,cell_phone=buyer_data.cell_phone,
                     booking_time=booking_time)
@@ -61,7 +59,7 @@ async def get_image_form(
     url_image=upload_to_cloudinary(image=image_content,id_tickets=id_tickets_list)
 
     for id_ticket in id_tickets_list:
-        update_tickets(id_ticket=id_ticket,url_image=url_image)
+        update_url_ticket(id_ticket=id_ticket,url_image=url_image)
 
     return templates.TemplateResponse("image_sent.1.html",{"request":request})
 

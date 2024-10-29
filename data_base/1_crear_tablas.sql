@@ -22,6 +22,12 @@ CREATE TABLE areas(
     PRIMARY KEY(id_area)
 );
 
+CREATE TABLE status(
+	id_status INT AUTO_INCREMENT,
+    status_name VARCHAR(50),
+    PRIMARY KEY(id_status)
+);
+
 CREATE TABLE users(
 	id_user INT AUTO_INCREMENT,
 	DNI VARCHAR(8),
@@ -50,12 +56,13 @@ CREATE TABLE buyers(
 CREATE TABLE tickets(
 	id_ticket INT AUTO_INCREMENT,
     number_ticket VARCHAR(4),
-    booked BOOLEAN,
+    id_status INT,
     booking_time DATETIME, #'1000-01-01 00:00:00' to '9999-12-31 23:59:59',
     evidence VARCHAR(200),
     id_user INT,
     id_buyer INT,
     PRIMARY KEY(id_ticket),
+    FOREIGN KEY(id_status) REFERENCES status(id_status),
     FOREIGN KEY(id_user) REFERENCES users(id_user),
     FOREIGN KEY(id_buyer) REFERENCES buyers(id_buyer)
 );

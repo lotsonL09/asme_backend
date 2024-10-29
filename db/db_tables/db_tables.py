@@ -25,6 +25,13 @@ areas_table=Table(
     Column("area_name",String)
 )
 
+status_table=Table(
+    "status",
+    metadata_obj,
+    Column("id_status",Integer,autoincrement=True,primary_key=True),
+    Column("status_name",String)
+)
+
 users_table=Table(
     "users",
     metadata_obj,
@@ -57,6 +64,7 @@ tickets_table=Table(
     Column("booked",Boolean),
     Column("booking_time",DateTime),
     Column("evidence",String),
+    Column("id_status",ForeignKey("status.id_status")),
     Column("id_user",Integer,ForeignKey("users.id_user")),
     Column("id_buyer",Integer,ForeignKey("buyers.id_buyer"))
 )
