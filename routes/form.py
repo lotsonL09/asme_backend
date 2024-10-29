@@ -44,7 +44,10 @@ async def get_data_form(
                     dni=buyer_data.dni,email=buyer_data.email,cell_phone=buyer_data.cell_phone,
                     booking_time=booking_time)
 
-    return templates.TemplateResponse("send_image.1.html",{"request":request,"data":{"id_tickets":id_tickets}})
+    #buyer_data.email
+
+    return templates.TemplateResponse("send_image.1.html",{"request":request,"data":{"id_tickets":id_tickets,
+                                                                                    'email':buyer_data.email}})
 
 @form.post("/image")
 async def get_image_form(
@@ -60,8 +63,20 @@ async def get_image_form(
 
     for id_ticket in id_tickets_list:
         update_url_ticket(id_ticket=id_ticket,url_image=url_image)
+    
+    #TODO: AQUI SE DEBE ENVIAR EL EMAIL
 
     return templates.TemplateResponse("image_sent.1.html",{"request":request})
 
 
-
+# @home.post('/send_mail')
+# async def send_mail():
+#     #seller
+#     #buyer
+#     #tickets
+#     #email
+#     body_html=make_email_html(seller="Chino Hau Yon",buyer="William Valencia",ticket="2020")
+#     await send_message(recipients=["willimaca09ac@gmail.com"],subject="Rifas ASME",body=body_html,ticket="2020")
+#     return {
+#         "message":"Email sent successfully"
+#     }

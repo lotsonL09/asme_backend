@@ -63,15 +63,3 @@ async def confirm_sale(id_ticket:int):
     return {
         "detail":"Ticket updated"
     }
-
-@home.post('/send_mail')
-async def send_mail():
-    #seller
-    #buyer
-    #tickets
-    #email
-    body_html=make_email_html(seller="Chino Hau Yon",buyer="William Valencia",ticket="2020")
-    await send_message(recipients=["willimaca09ac@gmail.com"],subject="Rifas ASME",body=body_html,ticket="2020")
-    return {
-        "message":"Email sent successfully"
-    }
