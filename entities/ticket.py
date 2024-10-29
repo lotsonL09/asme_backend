@@ -30,3 +30,7 @@ class To_Form_Tickets(BaseModel):
 class From_Form_Tickets(BaseModel):
     tickets_data:list[Ticket_db]
     buyer_data:Seller
+
+class Confirm_Ticket_Sale(BaseModel):
+    id_ticket:int
+    confirm:bool

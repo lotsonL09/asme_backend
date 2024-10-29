@@ -6,7 +6,7 @@
 
     <h1>Ingresa el voucher</h1>
 
-    <form action="/form/image" method="post" onsubmit=sendData(event)>
+    <form action="/form/image" method="post" onsubmit=sendImage(event)>
         <input type="file" name="file" accept="image/*" required />
         <button type="submit">Continuar</button>
     </form>
@@ -14,22 +14,26 @@
 </div>
 
 <script>
-    const idTickets=JSON.parse('{{data["id_tickets"] | tojson | safe}}');
+    const ticketsData2=JSON.parse('{{data["tickets_data"] | tojson | safe}}');
     const email=JSON.parse('{{data["email"] | tojson | safe}}');
-    function sendData(event){
+    const buyer=JSON.parse('{{data["buyer"] | tojson | safe}}')
+    function sendImage(event){
         event.preventDefault();
-
+        console.log(ticketsData2);
         const formData = new FormData();
-        formData.append("id_tickets",JSON.stringify(idTickets));
+        formData.append("tickets_data",JSON.stringify(ticketsData2));
+        // formData.append("tickets_data",ticketsData);
 
         const imageFile = document.querySelector("input[name='file']").files[0];
-        formData.append("image",imageFile)
+        formData.append("image",imageFile);
 
-        formData.append("email",JSON.stringify())
+        formData.append("email",email);
 
-        const imageForm = {
-            "image":document.querySelector("input[name='file']").value
-        }
+        formData.append("buyer",buyer)
+
+        // const imageForm = {
+        //     "image":document.querySelector("input[name='file']").value
+        // }
 
         fetch("/form/image",{
             method:'POST',

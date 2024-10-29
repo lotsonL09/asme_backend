@@ -5,7 +5,7 @@ import qrcode
 from fastapi import HTTPException,status
 from itsdangerous import URLSafeTimedSerializer
 import base64
-from sqlalchemy import update,insert
+from sqlalchemy import update,insert,delete
 from config.config import settings
 import cloudinary
 import requests
@@ -55,6 +55,17 @@ def get_insert_query(table,params:dict):
     query=insert(table).values(**params)
     return query
 
+def get_delete_query(table:str,params:dict):
+    query=delete(table)
+    for colum_name,value in params.items():
+        query=query.where(getattr(table.c,colum_name) == value)
+    return query
+
+def execute_delete(query):
+    with Session() as session:
+        session.execute(query)
+        session.commit()
+
 def create_url_safe_token(data):
     token=serializer.dumps(obj=data)
     return token
@@ -70,19 +81,8 @@ def get_qr(data):
     url="http://127.0.0.1:8000/form"
     encoded_data=create_url_safe_token(data=data)
     full_url=f"{url}/{encoded_data}"
-    qr=qrcode.make(full_url)
-
-    image_io=BytesIO()
-
-    qr.save(image_io,format="PNG")
-
-    image_io.seek(0)
-
-    qr_base64=base64.b64encode(image_io.getvalue()).decode('utf-8')
-
     return {
-        "link":full_url,
-        "qr":qr_base64
+        "link":full_url
     }
 
 

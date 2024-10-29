@@ -2,8 +2,10 @@ from sqlalchemy import Select,func,Update,desc
 from db.db_tables.db_tables import (tickets_table,buyers_table)
 from extra.helper_functions import (execute_get_one,execute_get,
                                     get_update_query,execute_update,
-                                    get_insert_query,execute_insert)
-from extra.schemas_function import scheme_available_ticket,scheme_booked_ticket,scheme_pending_sold_ticket
+                                    get_insert_query,execute_insert,
+                                    get_delete_query,execute_delete)
+from extra.schemas_function import (scheme_available_ticket,scheme_booked_ticket,
+                                    scheme_pending_sold_ticket)
 from entities.ticket import Ticket
 from fastapi import HTTPException,status
 from datetime import datetime
@@ -54,6 +56,9 @@ query_is_booked=(Select(
     tickets_table.c.id_status
 ))
 
+query_get_id_buyer=(Select(
+    tickets_table.c.id_buyer
+))
 
 def get_tickets(id_user,id_status:int):
     query=None
@@ -93,8 +98,7 @@ def get_last_booked_ticket(id_user):
         raise HTTPException(detail="No booked found",
                             status_code=status.HTTP_404_NOT_FOUND)
     else:
-        return ticket_number
-    
+        return ticket_number    
 
 def register_ticket(id_tickets:list[int],
                     first_name:str,last_name:str,
@@ -123,17 +127,6 @@ def register_ticket(id_tickets:list[int],
 
     return id_buyer
 
-"""
-action : 
-    update_status
-
-
-{
-    "action":"something",
-    "value":""
-}
-"""
-
 def update_status_ticket(id_ticket:int,id_status:int):
     query=get_update_query(table=tickets_table,filters={"id_ticket":id_ticket},params={"id_status":id_status})
     execute_update(query=query)
@@ -142,10 +135,31 @@ def update_url_ticket(id_ticket:int,url_image:str):
     query=get_update_query(table=tickets_table,filters={"id_ticket":id_ticket},params={"evidence":url_image})
     execute_update(query=query)
 
-def is_booked(id_ticket:int):
+def is_available(id_ticket:int):
     query=query_is_booked.where(tickets_table.c.id_ticket == id_ticket)
     status=execute_get_one(query=query)[0]
-    if status != 1:
+    if status == 1:
         return False
     else:
         return True
+
+def is_pending(id_ticket:int):
+    query=query_is_booked.where(tickets_table.c.id_ticket == id_ticket)
+    status=execute_get_one(query=query)[0]
+    if status == 3:
+        return True
+    else:
+        return False
+
+def reset_ticket(id_ticket:int):
+
+    id_buyer = execute_get_one(query=query_get_id_buyer)[0]
+
+    update_query=get_update_query(table=tickets_table,filters={"id_ticket":id_ticket},params={"id_status":1,"booking_time":None,"evidence":None,"id_buyer":None})
+
+    execute_update(query=update_query)
+
+    delete_query=get_delete_query(table=buyers_table,params={"id_buyer":id_buyer})
+    
+    execute_delete(query=delete_query)
+

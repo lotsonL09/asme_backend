@@ -1,11 +1,12 @@
 from fastapi import APIRouter,status,Request,Form,File,UploadFile,Query
 from fastapi.templating import Jinja2Templates
-from entities.ticket import From_Form_Tickets
+from entities.ticket import From_Form_Tickets,Ticket_db
 from entities.form import ImageForm
-from extra.helper_functions import decode_url_safe_token,upload_to_cloudinary
-from db.queries.tickets import register_ticket,update_url_ticket,is_booked
+from extra.helper_functions import decode_url_safe_token,upload_to_cloudinary,generate_ticket
+from db.queries.tickets import register_ticket,update_url_ticket,is_pending
 from datetime import datetime
 import json
+from config.mail import send_message,make_email_html
 
 form=APIRouter(prefix="/form",
             tags=["Form page"],
@@ -33,7 +34,7 @@ async def get_data_form(
 
     for ticket_data in tickets_data:
 
-        if is_booked(id_ticket=ticket_data.id_ticket):
+        if is_pending(id_ticket=ticket_data.id_ticket):
             return templates.TemplateResponse("disclaimer.1.html",{"request":request})
         else:
             id_tickets.append(ticket_data.id_ticket)
@@ -46,37 +47,38 @@ async def get_data_form(
 
     #buyer_data.email
 
-    return templates.TemplateResponse("send_image.1.html",{"request":request,"data":{"id_tickets":id_tickets,
-                                                                                    'email':buyer_data.email}})
+    print([ticket.model_dump_json() for ticket in tickets_data])
+
+    return templates.TemplateResponse("send_image.1.html",{"request":request,"data":{"tickets_data":[ticket.model_dump() for ticket in tickets_data],
+                                                                                    'email':buyer_data.email,
+                                                                                    "buyer":f"{buyer_data.first_name} {buyer_data.last_name}"}})
 
 @form.post("/image")
 async def get_image_form(
     request:Request,
-    id_tickets: str = Form(...), 
-    image: UploadFile = File(...)):
+    tickets_data: str = Form(...), 
+    image: UploadFile = File(...),
+    email:str=Form(...),
+    buyer:str=Form(...)):
 
-    id_tickets_list=json.loads(id_tickets)
+    tickets_list:list[Ticket_db]=json.loads(tickets_data)
 
     image_content = await image.read()
+
+    id_tickets_list=[ticket["id_ticket"] for ticket in tickets_list]
 
     url_image=upload_to_cloudinary(image=image_content,id_tickets=id_tickets_list)
 
     for id_ticket in id_tickets_list:
         update_url_ticket(id_ticket=id_ticket,url_image=url_image)
     
-    #TODO: AQUI SE DEBE ENVIAR EL EMAIL
+
+    ticket_numbers=[ticket["number_ticket"] for ticket in tickets_list]
+
+    
+    body_html=make_email_html(buyer=buyer,tickets=ticket_numbers)
+    
+    await send_message(recipients=[email],subject="Rifa ASME 2024",body=body_html,tickets=ticket_numbers)
+
 
     return templates.TemplateResponse("image_sent.1.html",{"request":request})
-
-
-# @home.post('/send_mail')
-# async def send_mail():
-#     #seller
-#     #buyer
-#     #tickets
-#     #email
-#     body_html=make_email_html(seller="Chino Hau Yon",buyer="William Valencia",ticket="2020")
-#     await send_message(recipients=["willimaca09ac@gmail.com"],subject="Rifas ASME",body=body_html,ticket="2020")
-#     return {
-#         "message":"Email sent successfully"
-#     }

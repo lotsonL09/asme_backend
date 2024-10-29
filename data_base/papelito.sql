@@ -10,13 +10,13 @@ WHERE t.id_user = 27 AND b.id_ticket = t.id_ticket AND t.booked = 1;
 
 SELECT t.id_ticket, t.number_ticket 
 FROM tickets t 
-WHERE t.id_user = 27 AND t.booked = 0;
+WHERE t.id_user = 27 AND t.booked = 1;
 
 SELECT * FROM users WHERE id_user=27;
 
 SELECT * FROM buyers;
 
-SELECT * FROM tickets WHERE id_user = 27;
+SELECT * FROM tickets WHERE id_user = 27 AND booked = 1 ORDER BY booking_time DESC LIMIT 1;
 
 INSERT buyers(first_name,last_name,DNI,email,cell_phone) VALUES("William","Valencia","71414470","william@gmail.com","987654321");
 INSERT buyers(first_name,last_name,DNI,email,cell_phone,id_ticket) VALUES("William","Valencia","71414470","william@gmail.com","987654321",782);
@@ -40,3 +40,16 @@ SELECT COUNT(booked) AS total_remain FROM tickets WHERE id_user = 1 AND booked =
 SELECT COUNT(booked) AS total_booked FROM tickets WHERE id_user = 1 AND booked = 1;
 
 SELECT * FROM users WHERE first_name = "Sergio";
+
+SELECT * FROM tickets WHERE id_user = 27;
+
+UPDATE tickets
+SET id_status=1, booking_time = null, evidence = null, id_buyer = null
+WHERE id_ticket = 785;
+
+#28
+
+DELETE FROM buyers
+WHERE id_buyer = 28;
+
+SELECT * FROM buyers;

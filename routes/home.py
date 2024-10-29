@@ -1,8 +1,9 @@
-from fastapi import APIRouter,status
-from db.queries.tickets import get_tickets,get_last_booked_ticket,update_status_ticket
-from extra.helper_functions import get_qr,generate_ticket
-from entities.ticket import To_Form_Tickets
-from config.mail import send_message,make_email_html
+from fastapi import APIRouter,status,HTTPException
+from db.queries.tickets import (get_tickets,get_last_booked_ticket,
+                                update_status_ticket,is_available,
+                                reset_ticket)
+from extra.helper_functions import get_qr
+from entities.ticket import To_Form_Tickets,Confirm_Ticket_Sale
 
 home=APIRouter(prefix="/home",
             tags=["home screen"],
@@ -50,7 +51,14 @@ async def get_booked_ticket(id_user:int):
 
 @home.post("/qr_section")
 async def get_link_qr(data_tickets:To_Form_Tickets):
-    print(data_tickets.tickets_data)
+    
+    #TODO: Verificar que a menos que este disponible, se bloquee el acceso al qr
+
+    for ticket in data_tickets.tickets_data:
+        if is_available(id_ticket=ticket.id_ticket):
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                                detail="Los tickets ya fueron reservados.")
+
     for ticket in data_tickets.tickets_data:
         update_status_ticket(id_ticket=ticket.id_ticket,id_status=2)
 
@@ -58,8 +66,11 @@ async def get_link_qr(data_tickets:To_Form_Tickets):
     return link_data
 
 @home.put("/confirm_ticket_sale")
-async def confirm_sale(id_ticket:int):
-    update_status_ticket(id_ticket=id_ticket,id_status=4)
+async def confirm_sale(confirm_ticket:Confirm_Ticket_Sale):
+    if confirm_ticket.confirm:
+        update_status_ticket(id_ticket=confirm_ticket.id_ticket,id_status=4)
+    else:
+        reset_ticket(id_ticket=confirm_ticket.id_ticket)
     return {
         "detail":"Ticket updated"
     }
