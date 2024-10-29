@@ -16,7 +16,7 @@
 <script>
     const ticketsData2=JSON.parse('{{data["tickets_data"] | tojson | safe}}');
     const email=JSON.parse('{{data["email"] | tojson | safe}}');
-    const buyer=JSON.parse('{{data["buyer"] | tojson | safe}}')
+    const buyer=JSON.parse('{{data["buyer_data"] | tojson | safe}}')
     function sendImage(event){
         event.preventDefault();
         console.log(ticketsData2);
@@ -29,7 +29,7 @@
 
         formData.append("email",email);
 
-        formData.append("buyer",buyer)
+        formData.append("buyer",JSON.stringify(buyer))
 
         // const imageForm = {
         //     "image":document.querySelector("input[name='file']").value

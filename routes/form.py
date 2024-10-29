@@ -33,11 +33,11 @@ async def get_data_form(
     id_tickets=[]
 
     for ticket_data in tickets_data:
-
         if is_pending(id_ticket=ticket_data.id_ticket):
             return templates.TemplateResponse("disclaimer.1.html",{"request":request})
         else:
             id_tickets.append(ticket_data.id_ticket)
+
 
     booking_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -45,13 +45,9 @@ async def get_data_form(
                     dni=buyer_data.dni,email=buyer_data.email,cell_phone=buyer_data.cell_phone,
                     booking_time=booking_time)
 
-    #buyer_data.email
-
-    print([ticket.model_dump_json() for ticket in tickets_data])
-
     return templates.TemplateResponse("send_image.1.html",{"request":request,"data":{"tickets_data":[ticket.model_dump() for ticket in tickets_data],
                                                                                     'email':buyer_data.email,
-                                                                                    "buyer":f"{buyer_data.first_name} {buyer_data.last_name}"}})
+                                                                                    "buyer_data":buyer_data.model_dump() }})
 
 @form.post("/image")
 async def get_image_form(
@@ -75,6 +71,7 @@ async def get_image_form(
 
     ticket_numbers=[ticket["number_ticket"] for ticket in tickets_list]
 
+    buyer=json.loads(buyer)
     
     body_html=make_email_html(buyer=buyer,tickets=ticket_numbers)
     

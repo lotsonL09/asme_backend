@@ -87,9 +87,9 @@ def get_qr(data):
 
 
 cloudinary.config(
-    cloud_name="ddcb3fk7s",
-    api_key="727551972448292",
-    api_secret="vPMqCTqDL8QwFjqTqfCQkn-W0fk",
+    cloud_name="dzybut9ql",
+    api_key="714655113325821",
+    api_secret="tuA0Nyra7pg3UJoBLyNqXPZiz4M",
     secure=True
 )
 
@@ -102,7 +102,7 @@ def upload_to_cloudinary(image,id_tickets:list[int]):
 
     response_cloud=cloudinary.uploader.upload(image,
                             public_id=public_id,
-                            folder="asme_pruebas")
+                            folder="asme_vouchers")
     url_file=response_cloud["secure_url"]
 
     return url_file
@@ -110,7 +110,7 @@ def upload_to_cloudinary(image,id_tickets:list[int]):
 
 def generate_ticket(ticket:str):
     
-    url_image="https://res.cloudinary.com/ddcb3fk7s/image/upload/v1730138591/asme_ticket_format_biaecm.jpg"   
+    url_image="https://res.cloudinary.com/ddcb3fk7s/image/upload/v1730220758/TICKET_RIFA_ASME_dpnjcf.jpg"   
 
     response=requests.get(url_image)
 
