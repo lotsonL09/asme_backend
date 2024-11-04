@@ -6,8 +6,9 @@
 
     <h1>Ingresa el voucher</h1>
 
-    <form action="/form/image" method="post" onsubmit=sendImage(event)>
-        <input type="file" name="file" accept="image/*" required />
+    <form action="/form/image" method="post" onsubmit=sendImage(event) class="container-file">
+        <input type="file" id="file" accept="image/*" class="upload-input" required />
+        <label for="file" class="upload-label">Sube el recibo</label>
         <button type="submit">Continuar</button>
     </form>
 
