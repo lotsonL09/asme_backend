@@ -7,8 +7,10 @@
     <h1>Ingresa el voucher</h1>
 
     <form action="/form/image" method="post" onsubmit=sendImage(event) class="container-file">
-        <input type="file" id="file" accept="image/*" class="upload-input" required />
-        <label for="file" class="upload-label">Sube el recibo</label>
+        <div>
+            <input type="file" id="file" accept="image/*" class="upload-input" required />
+            <label for="file" class="upload-label"></label>    
+        </div>
         <button type="submit">Continuar</button>
     </form>
 
@@ -20,12 +22,11 @@
     const buyer=JSON.parse('{{data["buyer_data"] | tojson | safe}}')
     function sendImage(event){
         event.preventDefault();
-        console.log(ticketsData2);
         const formData = new FormData();
         formData.append("tickets_data",JSON.stringify(ticketsData2));
         // formData.append("tickets_data",ticketsData);
 
-        const imageFile = document.querySelector("input[name='file']").files[0];
+        const imageFile = document.querySelector("input[id='file']").files[0];
         formData.append("image",imageFile);
 
         formData.append("email",email);

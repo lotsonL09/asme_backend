@@ -38,8 +38,6 @@ async def get_data_form(
         else:
             id_tickets.append(ticket_data.id_ticket)
 
-
-
     booking_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     _=register_ticket(id_tickets=id_tickets,first_name=buyer_data.first_name,last_name=buyer_data.last_name,

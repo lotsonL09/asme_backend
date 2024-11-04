@@ -136,6 +136,10 @@ body{
     }
 
     & .upload-label{
+        background-image: url("https://res.cloudinary.com/ddcb3fk7s/image/upload/v1730754664/upload_file_o2lcy1.png");
+        background-size: 50%; 
+        background-position: center;
+        background-repeat: no-repeat;
         display: inline-block;
         width: 250px;
         height: 200px;
