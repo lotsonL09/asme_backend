@@ -78,7 +78,7 @@ def decode_url_safe_token(token:str):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 def get_qr(data):
-    url="http://127.0.0.1:8000/form"
+    url="http://200.48.235.251:6020/form"
     encoded_data=create_url_safe_token(data=data)
     full_url=f"{url}/{encoded_data}"
     return {
