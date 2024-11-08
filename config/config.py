@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     SECRET_KEY:str
 
     DRIVER_NAME:str
-    USERNAME:str
+    USER_NAME:str
     PASSWORD:str
     HOST:str
     PORT:NonNegativeInt
