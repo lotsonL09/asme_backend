@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     USER_NAME:str
     PASSWORD:str
     HOST:str
-    PORT:NonNegativeInt
+    PORT_DB:NonNegativeInt
     DATABASE:str
 
     MAIL_USERNAME:str

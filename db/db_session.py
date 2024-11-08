@@ -6,7 +6,7 @@ db_config = {
     "username":settings.USER_NAME,
     "password":settings.PASSWORD,
     "host":settings.HOST,
-    "port":settings.PORT,
+    "port":settings.PORT_DB,
     "database":settings.DATABASE
 }
 
