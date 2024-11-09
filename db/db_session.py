@@ -7,7 +7,7 @@ db_config = {
     "password":settings.PASSWORD,
     "host":settings.HOST,
     "port":settings.PORT_DB,
-    "database":settings.DATABASE_DB
+    "database":settings.DATABASE
 }
 
 url_db=URL.create(**db_config)
