@@ -8,7 +8,7 @@
 
     <form action="/form/image" method="post" onsubmit=sendImage(event) class="container-file">
         <div>
-            <input type="file" id="file" accept="image/*" class="upload-input" required />
+            <input type="file" id="file" accept="image/*" class="upload-input" onchange=changeBackground(event) required />
             <label for="file" class="upload-label"></label>    
         </div>
         <button type="submit">Continuar</button>
@@ -20,6 +20,29 @@
     const ticketsData2=JSON.parse('{{data["tickets_data"] | tojson | safe}}');
     const email=JSON.parse('{{data["email"] | tojson | safe}}');
     const buyer=JSON.parse('{{data["buyer_data"] | tojson | safe}}')
+
+    function changeBackground(event){
+        const label = document.querySelector(".upload-label");
+        const file = event.target.files[0];
+
+        console.log("label name",label);
+
+        if (file){
+            const reader = new FileReader();
+            reader.onload = function(e){
+                label.style.backgroundImage = `url(${e.target.result})`;
+                label.style.backgroundSize = "50%";
+                label.style.backgroundPosition = "center";
+                label.style.height="200px";
+                label.style.cursor = "pointer";
+            }
+            reader.readAsDataURL(file);
+        }
+
+
+    }
+
+
     function sendImage(event){
         event.preventDefault();
         const formData = new FormData();

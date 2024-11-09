@@ -79,6 +79,7 @@ def decode_url_safe_token(token:str):
 
 def get_qr(data):
     url="https://asme-backend-l2jt.onrender.com/form"
+    #url="http://localhost:8080/form"
     encoded_data=create_url_safe_token(data=data)
     full_url=f"{url}/{encoded_data}"
     return {
@@ -116,7 +117,7 @@ def generate_ticket(ticket:str):
 
     text_ticket=f"N° {ticket}"
 
-    font=ImageFont.truetype("arial.ttf",size=120)
+    font=ImageFont.truetype("font/Roboto-Bold.ttf",size=120)
 
     color_text=(165,42,42)
 
