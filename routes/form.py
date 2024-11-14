@@ -32,6 +32,7 @@ async def get_data_form(
 
     id_tickets=[]
 
+    
     for ticket_data in tickets_data:
         if is_pending(id_ticket=ticket_data.id_ticket):
             return templates.TemplateResponse("disclaimer.1.html",{"request":request})

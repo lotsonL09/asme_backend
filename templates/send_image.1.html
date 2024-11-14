@@ -4,14 +4,14 @@
 
 <div class="form-image">
 
-    <h1>Ingresa el voucher</h1>
+    <h1>Sube el voucher</h1>
 
     <form action="/form/image" method="post" onsubmit=sendImage(event) class="container-file">
-        <div>
+        <div class="container-input-img">
             <input type="file" id="file" accept="image/*" class="upload-input" onchange=changeBackground(event) required />
             <label for="file" class="upload-label"></label>    
         </div>
-        <button type="submit">Continuar</button>
+        <button type="submit" class="">Continuar</button>
     </form>
 
 </div>
@@ -25,15 +25,15 @@
         const label = document.querySelector(".upload-label");
         const file = event.target.files[0];
 
-        console.log("label name",label);
-
         if (file){
             const reader = new FileReader();
             reader.onload = function(e){
                 label.style.backgroundImage = `url(${e.target.result})`;
                 label.style.backgroundSize = "50%";
                 label.style.backgroundPosition = "center";
-                label.style.height="200px";
+                label.style.minHeight="400px";
+                label.style.paddingTop="20px"
+                label.style.paddingBottom="20px"
                 label.style.cursor = "pointer";
             }
             reader.readAsDataURL(file);
