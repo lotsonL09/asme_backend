@@ -153,7 +153,9 @@ def is_pending(id_ticket:int):
 
 def reset_ticket(id_ticket:int):
 
-    id_buyer = execute_get_one(query=query_get_id_buyer)[0]
+    id_buyer = execute_get_one(query=query_get_id_buyer.where(tickets_table.c.id_ticket == id_ticket))[0]
+
+    print(f"Id del comprador:{id_buyer}")
 
     update_query=get_update_query(table=tickets_table,filters={"id_ticket":id_ticket},params={"id_status":1,"booking_time":None,"evidence":None,"id_buyer":None})
 

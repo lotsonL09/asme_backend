@@ -4,10 +4,10 @@ from config.config import settings
 db_config = {
     "drivername":settings.DRIVER_NAME,
     "username":settings.USER_NAME,
-    "password":settings.PASSWORD_DB,
-    "host":settings.HOST_NAME,
+    "password":settings.PASSWORD,
+    "host":settings.HOST,
     "port":settings.PORT_DB,
-    "database":settings.DATABASE_DB
+    "database":settings.DATABASE
 }
 
 print(db_config)
