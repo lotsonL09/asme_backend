@@ -30,7 +30,7 @@ CREATE TABLE status(
 
 CREATE TABLE users(
 	id_user INT AUTO_INCREMENT,
-	DNI VARCHAR(8),
+	DNI VARCHAR(15),
     first_name VARCHAR(100),
     last_name VARCHAR(100),
     checkbooks VARCHAR(2), #TALONARIOS

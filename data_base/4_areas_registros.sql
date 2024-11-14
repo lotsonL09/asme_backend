@@ -7,3 +7,5 @@ INSERT areas(id_area,area_name) VALUES (4,'Marketing');
 INSERT areas(id_area,area_name) VALUES (5,'Patrocinios');
 INSERT areas(id_area,area_name) VALUES (6,'Recursos Humanos');
 INSERT areas(id_area,area_name) VALUES (7,'STEM');
+INSERT areas(id_area,area_name) VALUES (8,'Gestión de Proyectos');
+
